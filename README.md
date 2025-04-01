@@ -44,6 +44,14 @@ Since the initial set of poles is known, <i>(6)</i> represents a linear problem 
 where <i>A</i> is a diagonal matrix containing the set of starting poles <i>â</i><sub><i>n</i></sub>, <i>b</i> is a column vector of ones, and <i>ĉ</i><sup><i>T</i></sup> is a row vector containing the set of residues <i>ĉ</i><sub><i>n</i></sub>. Subsequently, <i>(6)</i> can be represented as <i>(8)</i> which leads to <i>(9)</i>. Hence, the zeros of <i>σ(s)</i> are considered as the new poles of <i>f(s)</i>.
 </p>
 
+![Ecuación](https://quicklatex.com/cache3/80/ql_6353db49280f60dc64bf357d2f367b80_l3.png)
+
+![Ecuación](https://quicklatex.com/cache3/55/ql_d2cf3b48dc2179027c0ab5b2ad87cb55_l3.png)
+
+<p align="justify">
+where 
+</p>
+
 <p align="justify">
 In the second stage, VF uses the new set of calculated poles and <i>(1)</i> is solved in the least squares sense to calculate an updated set of residues <i>ĉ</i><sub><i>n</i></sub>. The aforementioned process can be performed iteratively until the error between the measured function and fitted function is minimum. The diagram summarizing this procedure is shown below:
 </p>
