@@ -1,5 +1,9 @@
 # The latest revised Fast-Relaxed Vector Fitting for MATLAB
 
+## Vector Fitting Theory
+
+### Classical Vector Fitting
+
 <p align="justify">
 One of the most utilized rational approximation techniques is Vector Fitting (VF). In 1999, VF was introduced and proved to be a highly robust and efficient rational approximation method, applicable to both smooth and resonant responses. This caused VF to be rapidly adopted in several areas including power systems and macro-modeling systems. VF approximates a frequency response (generally an array) using a rational function approximation, as shown in <i>(1)</i>:
 </p>
@@ -49,11 +53,68 @@ where <i>A</i> is a diagonal matrix containing the set of starting poles <i>â</
 ![Ecuación](https://quicklatex.com/cache3/55/ql_d2cf3b48dc2179027c0ab5b2ad87cb55_l3.png)
 
 <p align="justify">
-where 
+where <i>ẑ</i><sub><i>n</i></sub> are the zeros of <i>σ</i><sub><i>fit</i></sub><i>(s)</i>, and <i>z</i><sub><i>n</i></sub> are the zeros of <i>(σf)</i><sub><i>fit</i></sub><i>(s)</i>.
 </p>
 
 <p align="justify">
 In the second stage, VF uses the new set of calculated poles and <i>(1)</i> is solved in the least squares sense to calculate an updated set of residues <i>ĉ</i><sub><i>n</i></sub>. The aforementioned process can be performed iteratively until the error between the measured function and fitted function is minimum. The diagram summarizing this procedure is shown below:
 </p>
 
+### Relaxed constraint
 
+### QR algorithm for efficient implementation
+
+## A comprehesive vecfitX.m tutorial
+
+### New features
+
+### Settings
+
+<p align="justify">
+Like the original function written by Bjørn Gustavsen, vecfitX.m can be configured according to the user's requirements. Below is a list of the available options for customizing the function:
+</p>
+
+-opt.relax == 1      -> Use relaxed nontriviality constraint.  
+-opt.relax == 0      -> Use classical nontriviality constraint.
+-opt.stable == 0     -> Unstable poles are kept unchanged.           
+-opt.stable == 1     -> Unstable poles are made stable by flipping them into the left half-plane.            
+-opt.asymp == 1      -> D and E are omitted in fitting process.     
+-opt.asymp == 2      -> E is omitted in fitting process.             
+-opt.asymp == 3      -> D and E are taken into account.            
+-opt.skip_pole == 1  -> The pole identification part is skipped. C, D and E are identified using the initial poles as final poles.                       
+-opt.skip_res == 1   -> The residue identification part is skipped. Only the poles are identified.                       
+-opt.repre == 2      -> The returned model has a residue-pole representation. Output variable A (poles) is a 1xN vector, variable C (residues) is a is a Nrx(NxNr) array. 
+                        D, e are of dim: NrxNr 
+-opt.repre == 1      -> The returned state-space model has real and complex conjugate parameters. Output variable A is diagonal and sparse.           
+-opt.repre == 0      -> The returned state-space model has real elements only. Output variable A is square with 2x2 submatrices as diagonal elements. 
+-opt.errplot == 1    -> Include deviation in magnitude and phase angle plots.                                         
+-opt.fitplot == 1    -> Create plots of fitted function compared to the original function. Both magnitude and phase angle are shown.
+-opt.sigmaplot == 1  -> Create plot of sigma function.                                            
+-opt.savefig == 0    -> Figures are not saved.                       
+-opt.savefig == 1    -> Save plots in PDF format.                    
+-opt.savefig == 2    -> Save plots in PNG format.                    
+-opt.savefig == 3    -> Save plots in JPEG format.                   
+-opt.savefig == 4    -> Save plots in SVG format.                    
+
+```matlab
+def.relax = 1;                            % Use vector fitting with relaxed non-triviality constraint
+def.stable = 1;                           % Enforce stable poles
+def.asymp = 3;                            % Include both D and E  
+def.skip_pole = 0;                        % Do not skip pole identification
+def.skip_res = 0;                         % Do not skip identification of residues (C,D,E) 
+def.repre = 1;                            % Create complex state space representation
+def.errplot = 1;                          % Include deviation in magnitude and phase angle plot
+def.fitplot = 1;                          % Create plots of fitted and original functions
+def.sigmaplot = 0;                        % Exclude plot of sigma function
+def.savefig = 0;                          % No saving plots
+```
+
+### Input and output data
+
+### Iterative implementation
+
+### Test cases
+
+## Contact info
+
+## References
