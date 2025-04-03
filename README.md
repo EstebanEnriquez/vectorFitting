@@ -86,6 +86,18 @@ The zero calculation in <i>(12)</i> is only valid when <i>d̂</i> is nonzero. If
 
 ### QR algorithm for efficient implementation
 
+<p align="justify">
+For multiport systems, the classical VF method requires solving large, sparse linear systems to estimate the rational function, as shown in equation (6). This becomes computationally expensive and memory-intensive as the number of ports grows. For example, a 60-port system with 101 frequency samples requires 54 GB of RAM in the standard implementation, making it impractical for typical workstations. Even if the structure under study has a moderate amount of ports, the size of the corresponding LS matrix may become prohibitively large. Furthermore, a lot of computational effort is wasted on the calculation of the residues <i>c</i><sub><i>n</i></sub>, which are discarded by the VF algorithm. In [Reference], the authors introduce a Fast VF method that leverages the QR decomposition to simplify the LS equations. This process leads to a simplified set of equations which depend only on <i>ĉ</i><sub><i>n</i></sub>. Instead of solving one large linear system for all ports, the method processes each matrix element (port) sequentially. For each element, the QR decomposition is applied to its corresponding linear system. This decomposes the problem into smaller, manageable parts. After decomposing all individual systems, the results are combined into a smaller, shared system.
+</p>
+
+<p align="justify">
+As explained above, once the residues <i>ĉ</i><sub><i>n</i></sub> of <i>σ(s)</i> are computed, the common poles <i>â</i><sub><i>n</i></sub> of the transfer function are found by computing the eigenvalues of <i>(12)</i>. Note that the second stage of VF remains unchanged. The modification of the VF with the two methods proposed in [2006] and [2008] have resulted in the third and last version of VF so far, better known as  <strong>Fast-Relaxed Vector Fitting (FRVF)</strong>.
+</p>
+
+<p align="justify">
+The modification of the VF with the two methods proposed in [2006] and [2008] have resulted in the third and last version of VF so far, better known as  <strong>Fast-Relaxed Vector Fitting (FRVF)</strong>.
+</p>
+
 ## A comprehesive vecfitX.m tutorial
 
 ### New features
