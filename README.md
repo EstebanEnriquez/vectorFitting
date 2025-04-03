@@ -60,7 +60,29 @@ where <i>ẑ</i><sub><i>n</i></sub> are the zeros of <i>σ</i><sub><i>fit</i></s
 In the second stage, VF uses the new set of calculated poles and <i>(1)</i> is solved in the least squares sense to obtain an updated set of residues <i>ĉ</i><sub><i>n</i></sub>. The aforementioned process can be performed iteratively until the error between the measured function and fitted function is minimum. The diagram summarizing this procedure is shown below:
 </p>
 
-### Relaxed constraint
+### Improvement in pole relocation: Relaxed condition of scaling function
+
+<p align="justify">
+VF operates by iteratively adjusting an initial set of poles to more optimal locations. When fitting the frequency-domain response of a rational function with the correct order, the poles can often be positioned accurately in a single step. However, when a lower-order function is used for the fit, multiple iterations may be required. The process becomes more challenging when the frequency response includes nonrational elements, such as noise, which can hinder convergence and, in some cases, even cause it to stall. A significant improvement in VF’s convergence properties can be achieved through a minor modification. As shown above, the classical formulation of VF incorporates a scaling function <i>σ(s)</i> that approaches unity at high frequencies. However, this high-frequency asymptotic condition can negatively impact convergence. To address this issue, the asymptotic condition is replaced with a more flexible constraint that ensures a nontrivial solution to the least-squares problem while avoiding the adverse effects on convergence. Then equation <i>(4)</i> is replaced by <i>(10)</i>:
+</p>
+
+![Ecuación](https://quicklatex.com/cache3/5f/ql_b5c5ba191a254cb9f0bf7983de2dc95f_l3.png)
+
+<p align="justify">
+where <i>d̂</i> is real. In order to avoid the trivial solution. One equation is added to the resulting LS problem:
+</p>
+
+![Ecuación](https://quicklatex.com/cache3/f3/ql_900c54f8394d22d7cccc4cbd67ba42f3_l3.png)
+
+<p align="justify">
+Equation <i>(11)</i> ensures that the sum of the real part of <i>σ(s)</i> over the given frequency samples is a nonzero value, while leaving all free variables unrestricted. Since <i>σ(s)</i> during iterations does not approach unity at high frequencies, <i>(7)</i> must be replaced with:
+</p>
+
+![Ecuación](https://quicklatex.com/cache3/3d/ql_5a96abc92d502012111829a0c327a33d_l3.png)
+
+<p align="justify">
+The zero calculation in <i>(12)</i> is only valid when <i>d̂</i> is nonzero. If the absolute value of <i>d̂</i> is found to be smaller than <i>tol = 1x10<sup>-8</sup></i>, the solution is discarded, and the least-squares problem has to be solved again with a fixed value for <i>d̂</i> in equation <i>(10)</i>.
+</p>
 
 ### QR algorithm for efficient implementation
 
