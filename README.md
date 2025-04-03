@@ -57,7 +57,7 @@ where <i>ẑ</i><sub><i>n</i></sub> are the zeros of <i>σ</i><sub><i>fit</i></s
 </p>
 
 <p align="justify">
-In the second stage, VF uses the new set of calculated poles and <i>(1)</i> is solved in the least squares sense to calculate an updated set of residues <i>ĉ</i><sub><i>n</i></sub>. The aforementioned process can be performed iteratively until the error between the measured function and fitted function is minimum. The diagram summarizing this procedure is shown below:
+In the second stage, VF uses the new set of calculated poles and <i>(1)</i> is solved in the least squares sense to obtain an updated set of residues <i>ĉ</i><sub><i>n</i></sub>. The aforementioned process can be performed iteratively until the error between the measured function and fitted function is minimum. The diagram summarizing this procedure is shown below:
 </p>
 
 ### Relaxed constraint
@@ -71,30 +71,75 @@ In the second stage, VF uses the new set of calculated poles and <i>(1)</i> is s
 ### Settings
 
 <p align="justify">
-Like the original function written by Bjørn Gustavsen, vecfitX.m can be configured according to the user's requirements. Below is a list of the available options for customizing the function:
+Like the original function written by Bjørn Gustavsen, vecfitX.m can be configured according to the user's requirements. Below is a list of the available options for customizing the function. You can set all the parameters or just some of them. Numbers in parentheses indicate the possible values ​​that a parameter can take.
 </p>
 
--opt.relax == 1      -> Use relaxed nontriviality constraint.  
--opt.relax == 0      -> Use classical nontriviality constraint.
--opt.stable == 0     -> Unstable poles are kept unchanged.           
--opt.stable == 1     -> Unstable poles are made stable by flipping them into the left half-plane.            
--opt.asymp == 1      -> D and E are omitted in fitting process.     
--opt.asymp == 2      -> E is omitted in fitting process.             
--opt.asymp == 3      -> D and E are taken into account.            
--opt.skip_pole == 1  -> The pole identification part is skipped. C, D and E are identified using the initial poles as final poles.                       
--opt.skip_res == 1   -> The residue identification part is skipped. Only the poles are identified.                       
--opt.repre == 2      -> The returned model has a residue-pole representation. Output variable A (poles) is a 1xN vector, variable C (residues) is a is a Nrx(NxNr) array. 
-                        D, e are of dim: NrxNr 
--opt.repre == 1      -> The returned state-space model has real and complex conjugate parameters. Output variable A is diagonal and sparse.           
--opt.repre == 0      -> The returned state-space model has real elements only. Output variable A is square with 2x2 submatrices as diagonal elements. 
--opt.errplot == 1    -> Include deviation in magnitude and phase angle plots.                                         
--opt.fitplot == 1    -> Create plots of fitted function compared to the original function. Both magnitude and phase angle are shown.
--opt.sigmaplot == 1  -> Create plot of sigma function.                                            
--opt.savefig == 0    -> Figures are not saved.                       
--opt.savefig == 1    -> Save plots in PDF format.                    
--opt.savefig == 2    -> Save plots in PNG format.                    
--opt.savefig == 3    -> Save plots in JPEG format.                   
--opt.savefig == 4    -> Save plots in SVG format.                    
+<ul>
+    <li>opt.relax:
+        <ul>
+            <li>(0) Use classical nontriviality constraint.</li>
+            <li>(1) Use relaxed nontriviality constraint.</li>
+        </ul>
+    </li>
+    <li>opt.stable:
+        <ul>
+            <li>(0) Unstable poles are kept unchanged.</li>
+            <li>(1) Unstable poles are made stable by flipping them into the left half-plane.</li>
+        </ul>
+    </li>
+    <li>opt.asymp:
+        <ul>
+            <li>(1) D and E are omitted in fitting process.</li>
+            <li>(2) Only E is omitted in fitting process.</li>
+            <li>(3) D and E are taken into account.</li>
+        </ul>
+    </li>
+    <li>opt.skip_pole:
+        <ul>
+            <li>(1) The pole identification part is skipped. C, D and E are identified using the initial poles as final poles.</li>
+        </ul>
+    </li>
+    <li>opt.skip_res:
+        <ul>
+            <li>(1) The residue identification part is skipped. Only the poles are identified.</li>
+        </ul>
+    </li>
+    <li>opt.repre:
+        <ul>
+            <li>(0) The returned state-space model has real elements only. Output variable A is square with <i>2x2</i> submatrices as diagonal elements.</li>
+            <li>(1) The returned state-space model has real and complex conjugate parameters. Output variable A is diagonal and sparse.</li>
+            <li>(2) The returned model has a residue-pole representation. Output variable A (poles) is a <i>Nx1</i> vector, variable C (residues) is a <i>Nrx(NxNc)</i> array. Variables D and E are <i>NrxNc</i> arrays.</li>
+        </ul>
+    </li>
+    <li>opt.errplot:
+        <ul>
+            <li>(1) Include deviation in magnitude and phase angle plots.</li>
+        </ul>
+    </li>
+    <li>opt.fitplot:
+        <ul>
+            <li>(1) Create plots of fitted function compared to the original function. Both magnitude and phase angle are shown.</li>
+        </ul>
+    </li>
+    <li>opt.sigmaplot:
+        <ul>
+            <li>(1) Create plot of sigma function.</li>
+        </ul>
+    </li>
+    <li>opt.savefig:
+        <ul>
+            <li>(0) Figures are not saved.</li>
+            <li>(1) Save plots in PDF format.</li>
+            <li>(2) Save plots in PNG format.</li>
+            <li>(3) Save plots in JPEG format.</li>
+            <li>(4) Save plots in SVG format.</li>
+        </ul>
+    </li>
+</ul>
+
+<p align="justify">
+If you omit the vecfitX.m configuration, the function has the following default parameters:
+</p>
 
 ```matlab
 def.relax = 1;                            % Use vector fitting with relaxed non-triviality constraint
@@ -106,7 +151,7 @@ def.repre = 1;                            % Create complex state space represent
 def.errplot = 1;                          % Include deviation in magnitude and phase angle plot
 def.fitplot = 1;                          % Create plots of fitted and original functions
 def.sigmaplot = 0;                        % Exclude plot of sigma function
-def.savefig = 0;                          % No saving plots
+def.savefig = 0;                          % Figures are not saved
 ```
 
 ### Input and output data
