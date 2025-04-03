@@ -91,7 +91,7 @@ For multiport systems, the classical VF method requires solving large, sparse li
 </p>
 
 <p align="justify">
-As explained above, once the residues <i>ĉ</i><sub><i>n</i></sub> of <i>σ(s)</i> are computed, the common poles <i>â</i><sub><i>n</i></sub> of the transfer function are found by computing the eigenvalues of <i>(12)</i>. Note that the second stage of VF remains unchanged. The modification of the VF with the two methods proposed in [2006] and [2008] have resulted in the third and last version of VF so far, better known as  <strong>Fast-Relaxed Vector Fitting (FRVF)</strong>.
+As explained above, once the residues <i>ĉ</i><sub><i>n</i></sub> of <i>σ(s)</i> are computed, the common poles <i>â</i><sub><i>n</i></sub> of the transfer function are found by computing the eigenvalues of <i>(12)</i>. Note that the second stage of VF remains unchanged.
 </p>
 
 <p align="justify">
