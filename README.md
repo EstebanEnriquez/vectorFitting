@@ -203,6 +203,7 @@ If you would like to get in touch for professional collaboration, research propo
   <li><strong>Secondary email:</strong> esteban.enriquez@cinvestav.com</li>
   <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/jose-esteban-enriquez-jamangape-9a024131a/">Jose Esteban Enriquez</a></li>
   <li><strong>GitHub:</strong> <a href="https://github.com/EstebanEnriquez">Esteban Enriquez</a></li>
+  <li><strong>ResearchGate:</strong> <a href="https://www.researchgate.net/profile/J-Enriquez-Jamangape?ev=hdr_xprf">J. E. Enríquez-Jamangape</a></li>
 </ul>
 
 ## References
