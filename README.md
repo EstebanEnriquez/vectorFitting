@@ -195,5 +195,14 @@ def.savefig = 0;                          % Figures are not saved
 ### Test cases
 
 ## Contact info
+<p align="justify">
+If you would like to get in touch for professional collaboration, research proposals, or questions related to my work, feel free to reach out through any of the following channels:
+</p>
+<ul>
+  <li><strong>Primary email:</strong> josejamangape@gmail.com</li>
+  <li><strong>Secondary email:</strong> esteban.enriquez@cinvestav.com</li>
+  <li><strong>LinkedIn:</strong> <a href="www.linkedin.com/in/jose-esteban-enriquez-jamangape-9a024131a">Jose Esteban Enriquez</a></li>
+  <li><strong>GitHub:</strong> <a href="https://github.com/EstebanEnriquez">Esteban Enriquez</a></li>
+</ul>
 
 ## References
