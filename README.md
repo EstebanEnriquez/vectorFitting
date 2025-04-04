@@ -190,6 +190,26 @@ def.savefig = 0;                          % Figures are not saved
 
 ### Input and output data
 
+#### Description of the input data:
+
+<ul>
+    <li><strong><code>f(s)</code>:</strong> Matrix function (3D array) to be fitted with dimensions <i>Nr X Nc X Ns</i>.
+        <ul>
+            <li><i>Nr</i>: Number of rows in array.</li>
+            <li><i>Nc</i>: Number of columns in array.</li>
+            <li><i>Ns</i>: Number of layers (frequency samples) in array.</li>
+        </ul>
+    </li>
+    <li><strong><code>s</code>:</strong> Vector of frequency samples [rad/sec] with dimensions <i>1 X Ns</i>.</li>
+    <li><strong><code>poles</code>:</strong> Vector of initial poles [rad/sec] with dimensions <i>1 X N</i>.  (Explain selection of inital poles)</li>
+    <li><strong><code>weight</code>:</strong> The elements in the system matrix are weighted using this array. It can be used for achieving higher accuracy at desired frequency samples. If no weighting is desired, use unitary weights, i.e. weight array of ones, with dimensions <i>1 X Ns</i>. Otherwise, 1D and 2D arrays are allowed. (Explain computation of weight and stackM.m function).</li>
+        <ul>
+            <li><strong>1D array</strong>: Common weighting for all elements, weight array with dimensions <i>1 X Ns</i>.</li>
+            <li><strong>2D array</strong>: Individual weighting, weight array with dimensions <i>(Nr*Nc) X Ns</i>.</li>
+        </ul>
+    <li><strong><code>opt</code>:</strong> Configuration options.</li>
+</ul>
+
 ### Iterative implementation
 
 ### Test cases
