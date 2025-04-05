@@ -210,6 +210,37 @@ def.savefig = 0;                          % Figures are not saved
     <li><strong><code>opt</code>:</strong> Configuration options.</li>
 </ul>
 
+#### Description of the output data:
+
+<ul>
+    <li><strong><code>SER.A</code>:</strong> Array containing the poles of the fitted matrix function.
+        <ul>
+            <li> If <strong><code>opt.repre = 0</code>:</strong> A is sparse, square and real with <i>2 X 2</i> submatrices as diagonal elements, with dimensions <i>N X N</i>.</li>
+            <li> If <strong><code>opt.repre = 1</code>:</strong> A is sparse, diagonal and complex, with dimensions <i>N X N</i>.</li>
+            <li> If <strong><code>opt.repre = 2</code>:</strong> A is a complex vector with dimensions <i>N X 1</i>.</li>
+        </ul>
+    </li>
+    <li><strong><code>SER.B</code>:</strong> Nx1 matrix only for real and complex state space representation.
+        <ul>
+            <li> If <strong><code>opt.repre = 0</code>:</strong> B is a column vector of ones.</li>
+            <li> If <strong><code>opt.repre = 1</code>:</strong> B is a column vector of zeros, ones and twos.</li>
+        </ul>
+    </li>
+    <li><strong><code>SER.C</code>:</strong> Array containing the residues of the fitted matrix function.
+        <ul>
+            <li> If <strong><code>opt.repre = 0</code>:</strong> C is real with dimensions <i>(Nr*Nc) X N</i>.</li>
+            <li> If <strong><code>opt.repre = 1</code>:</strong> C is complex with dimensions <i>(Nr*Nc) X N</i>.</li>
+            <li> If <strong><code>opt.repre = 2</code>:</strong> C is complex with dimensions <i>Nr X (N*Nc)</i>.</li>
+        </ul>
+    </li>
+    <li><strong><code>SER.D</code>:</strong> <i>Nr X Nc</i> real constant term.</li>
+    <li><strong><code>SER.E</code>:</strong> <i>Nr X Nc</i> real proportional term.</li>
+    <li><strong><code>ord_zrs</code>:</strong> <i>1 X N</i> matrix containing the newly calculated poles.</li>
+    <li><strong><code>rms</code>:</strong> root-mean-square error (scalar) of approximation for f(s). 0 is returned if <code>skip_res = 1</code>.</li>
+    <li><strong><code>fit</code>:</strong> <i>(Nr*Nc) X Ns</i> array containing the rational approximation of f(s). 0 is returned if <code>skip_res = 1</code>. If f(s) is a symmetric matrix, then fit has <i>(Nr*(Nr+1)/2)</i> rows and <i>Ns columns</i>.</li>
+</ul>
+
+
 ### Iterative implementation
 
 ### Test cases
