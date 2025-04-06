@@ -258,12 +258,13 @@ If you would like to get in touch for professional collaboration, research propo
 </ul>
 
 ## References
-
+<p align="justify">
 [1]  B. Gustavsen and A. Semlyen, "Rational approximation of frequency domain responses by Vector Fitting", IEEE Trans. Power Delivery, vol. 14, no. 3, pp. 1052-1061, July 1999.
 
 [2] B. Gustavsen, "Improving the pole relocating properties of vector fitting", IEEE Trans. Power Delivery, vol. 21, no. 3, pp. 1587-1592, July 2006.
 
 [3] D. Deschrijver, M. Mrozowski, T. Dhaene, and D. De Zutter, “Macromodeling of Multiport Systems Using a Fast Implementation of the Vector Fitting Method”, IEEE Microwave and Wireless Components Letters, vol. 18, no. 6, pp. 383-385, June 2008.
 
-[4] B. Gustavsen, "User's Guide for vectfit3.m (Fast, Relaxed Vector fitting)", SINTEF Energy Research, N-7465 Trondheim, Norway, 2008. Aviable online: <a href="https://www.sintef.no/en/software/vector-fitting/downloads/#menu">vecfit3.m for MATLAB</a>
+[4] B. Gustavsen, "User's Guide for vectfit3.m (Fast, Relaxed Vector fitting)", SINTEF Energy Research, N-7465 Trondheim, Norway, 2008. Aviable online: <a href="https://www.sintef.no/en/software/vector-fitting/downloads/#menu">vecfit3.m for MATLAB</a>.
+</p>
 
