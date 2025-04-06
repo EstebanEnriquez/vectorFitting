@@ -236,8 +236,8 @@ def.savefig = 0;                          % Figures are not saved
     <li><strong><code>SER.D</code>:</strong> <i>Nr X Nc</i> real constant term.</li>
     <li><strong><code>SER.E</code>:</strong> <i>Nr X Nc</i> real proportional term.</li>
     <li><strong><code>ord_zrs</code>:</strong> <i>1 X N</i> matrix containing the newly calculated poles.</li>
-    <li><strong><code>rms</code>:</strong> root-mean-square error (scalar) of approximation for f(s). 0 is returned if <code>skip_res = 1</code>.</li>
-    <li><strong><code>fit</code>:</strong> <i>(Nr*Nc) X Ns</i> array containing the rational approximation of f(s). 0 is returned if <code>skip_res = 1</code>. If f(s) is a symmetric matrix, then fit has <i>(Nr*(Nr+1)/2)</i> rows and <i>Ns columns</i>.</li>
+    <li><strong><code>rms</code>:</strong> root-mean-square error (scalar) of approximation for <i>f(s)</i>. 0 is returned if <code>skip_res = 1</code>.</li>
+    <li><strong><code>fit</code>:</strong> <i>(Nr*Nc) X Ns</i> array containing the rational approximation of <i>f(s)</i>. 0 is returned if <code>skip_res = 1</code>. If <i>f(s)</i> is a symmetric matrix, then fit has <i>(Nr*(Nr+1)/2)</i> rows and <i>Ns columns</i>.</li>
 </ul>
 
 
