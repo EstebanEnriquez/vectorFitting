@@ -17,7 +17,8 @@ if nargin == 5
             B(n,:) = b1;
             B(n+1,:) = b2;
         end
-    end
+    end 
+    C = C.';
 else
     for m = 1:N
         n = n + 1;
