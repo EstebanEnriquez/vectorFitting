@@ -283,31 +283,86 @@ end
 </p>
 
 <ul>
-  <li><strong><code>ex1.m</code>:</strong> In this program, an artificial scalar function <i>f(s)</i> is constructed. <i>f(s)</i> is a row vector whose elements correspond to two predefined partial fractions. In addition, 18 complex starting poles are used, vecfitX is called three times iteratively (new poles are used as starting poles in each iteration), and a real state-space representation is selected.
-      
-  <p align="center">
-    <img src="images/myfigure_1_1.svg" alt="Diagrama del sistema" width="500" style="border: 1px solid #ccc; border-radius: 10px;" />
-  </p>
-  <p align="center"><em>Figure 1. Magnitude plot</em></p>
-
+  <li><strong><code>ex1.m</code>:</strong> In this program, an artificial scalar function <i>f(s)</i> is constructed. <i>f(s)</i> is a row vector whose elements correspond to two predefined partial fractions. In addition, 18 complex starting poles are used, vecfitX is called three times iteratively (new poles are used as starting poles in each iteration), and a real state-space representation is selected. The plots obtained are shown below.
+<br><br>
 <table align="center">
   <tr>
     <td align="center">
       <img src="images/myfigure_1_1.svg" width="500"><br>
-      <em>Figura 1: Esquema A</em>
+      <em>Figure 1.1: Magnitude plot.</em>
     </td>
     <td align="center">
       <img src="images/myfigure_2_1.svg" width="500"><br>
-      <em>Figura 2: Esquema B</em>
+      <em>Figure 1.2: Phase angle plot.</em>
     </td>
   </tr>
 </table>
-
+<br><br>
   </li>
-    <li><strong><code>ex2.m</code>:</strong> In this example, the measured response of a transformer <i>f(s)</i> (scalar) is read from file <code>03pk10.txt</code>. In addition, 6 complex starting poles are used, vecfitX is called five times iteratively (new poles are used as starting poles in each iteration), a complex state-space representation is selected, and <i>f(s)</i> is weighted with the inverse of its magnitude.</li>
-    <li><strong><code>ex3.m</code>:</strong> In this program, a calculated terminal admittance <i>6 X 6 X 300</i> matrix <i>Y(s)</i> of a power system is read from file <code>fdne.txt</code>. Only the first column of <i>Y(s)</i> is fitted, as follows: 50 complex starting poles are used, vecfitX is called five times iteratively (new poles are used as starting poles in each iteration), a complex state-space representation is selected, and <i>Y(s)</i> is weighted with the inverse of the square root of its magnitude.</li>
-    <li><strong><code>ex4.m</code>:</strong> In this example, the same <i>6 X 6 X 300</i> matrix <i>Y(s)</i> is used. Now a complete complex state-space representation is calculated by fitting <i>Y(s)</i> column by column (each column has a different set of poles). In addition, 50 complex starting poles are used and improved on by fitting the element sum of the first column before fitting all columns, vecfitX is called 3 times iteratively (for each column),  and the columns of <i>Y(s)</i> are weighted with the inverse of the square root of its magnitudes.</li>
-    <li><strong><code>ex5.m</code>:</strong> Again the same <i>6 X 6 X 300</i> matrix <i>Y(s)</i> is used. Now a residue-pole representation is calculated by fitting <i>Y(s)</i> (all elements has a common set of poles). The fitting is performed similarly to the previous example. After obtaining the residue-pole representation, the <code>res2fit</code> function is used to obtain the fitted matrix in its original shape. </li>
+    <li><strong><code>ex2.m</code>:</strong> In this example, the measured response of a transformer <i>f(s)</i> (scalar) is read from file <code>03pk10.txt</code>. In addition, 6 complex starting poles are used, vecfitX is called five times iteratively (new poles are used as starting poles in each iteration), a complex state-space representation is selected, and <i>f(s)</i> is weighted with the inverse of its magnitude. The plots obtained are shown below.
+        <br><br>
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="images/myfigure_1_2.svg" width="500"><br>
+      <em>Figure 2.1: Magnitude plot.</em>
+    </td>
+    <td align="center">
+      <img src="images/myfigure_2_2.svg" width="500"><br>
+      <em>Figure 2.2: Phase angle plot.</em>
+    </td>
+  </tr>
+</table>
+<br><br>
+    </li>
+    <li><strong><code>ex3.m</code>:</strong> In this program, a calculated terminal admittance <i>6 X 6 X 300</i> matrix <i>Y(s)</i> of a power system is read from file <code>fdne.txt</code>. Only the first column of <i>Y(s)</i> is fitted, as follows: 50 complex starting poles are used, vecfitX is called five times iteratively (new poles are used as starting poles in each iteration), a complex state-space representation is selected, and <i>Y(s)</i> is weighted with the inverse of the square root of its magnitude. The plots obtained are shown below.
+        <br><br>
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="images/myfigure_1_3.svg" width="500"><br>
+      <em>Figure 3.1: Magnitude plot.</em>
+    </td>
+    <td align="center">
+      <img src="images/myfigure_2_3.svg" width="500"><br>
+      <em>Figure 3.2: Phase angle plot.</em>
+    </td>
+  </tr>
+</table>
+<br><br>
+    </li>
+    <li><strong><code>ex4.m</code>:</strong> In this example, the same <i>6 X 6 X 300</i> matrix <i>Y(s)</i> is used. Now a complete complex state-space representation is calculated by fitting <i>Y(s)</i> column by column (each column has a different set of poles). In addition, 50 complex starting poles are used and improved on by fitting the element sum of the first column before fitting all columns, vecfitX is called 3 times iteratively (for each column),  and the columns of <i>Y(s)</i> are weighted with the inverse of the square root of its magnitudes. The plots obtained of the last column are shown below.
+        <br><br>
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="images/myfigure_1_4.svg" width="500"><br>
+      <em>Figure 4.1: Magnitude plot.</em>
+    </td>
+    <td align="center">
+      <img src="images/myfigure_2_4.svg" width="500"><br>
+      <em>Figure 4.2: Phase angle plot.</em>
+    </td>
+  </tr>
+</table>
+<br><br>
+    </li>
+    <li><strong><code>ex5.m</code>:</strong> Again the same <i>6 X 6 X 300</i> matrix <i>Y(s)</i> is used. Now a residue-pole representation is calculated by fitting <i>Y(s)</i> (all elements has a common set of poles). The fitting is performed similarly to the previous example. After obtaining the residue-pole representation, the <code>res2fit</code> function is used to obtain the fitted matrix in its original shape. The plots obtained are shown below.
+        <br><br>
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="images/myfigure_1_5.svg" width="500"><br>
+      <em>Figure 5.1: Magnitude plot.</em>
+    </td>
+    <td align="center">
+      <img src="images/myfigure_2_5.svg" width="500"><br>
+      <em>Figure 5.2: Phase angle plot.</em>
+    </td>
+  </tr>
+</table>
+<br><br>
+    </li>
 </ul>
 
 ## Contact info
