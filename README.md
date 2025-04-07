@@ -243,6 +243,27 @@ def.savefig = 0;                          % Figures are not saved
 
 ### Iterative implementation
 
+<p align="justify">
+    A common practice is to iteratively apply the FRVF to improve the relocation of the calculated poles and achieve higher accuracy. This is achieved as follows:
+</ul>
+
+```matlab
+opt.skip_res = 1;          % Residue identification part is skipped.
+opt.repre = 2;             % Pole-residue representation.
+opt.fitplot = 1;           % Include graphs of fitted function.
+
+Niter = 5;                 % Number of the iterations.
+for iter = 1:Niter
+  if iter == Niter
+      opt.skip_res = 0;    % In the last iteration residue identification part is NOT skipped.
+  end
+    [SER,poles,rmserr,fit] = vectfitX(bigY,s,poles,weight,opt);
+end
+```
+<p align="justify">
+    It is important to note that residue identification is skipped until the last iteration. This is to reduce computation time. Keep in mind that residue identification should be performed with the last set of poles calculated. When residue identification is disabled, graph creation is also disabled. Even if it has been manually enabled, as in the previous example. This way, only the plots corresponding to the last iteration are displayed.
+</ul>
+
 ### Test cases
 
 ## Contact info
