@@ -283,7 +283,27 @@ end
 </p>
 
 <ul>
-  <li><strong><code>ex1.m</code>:</strong> In this program, an artificial scalar function <i>f(s)</i> is constructed. <i>f(s)</i> is a row vector whose elements correspond to two predefined partial fractions. In addition, 18 complex starting poles are used, vecfitX is called three times iteratively (new poles are used as starting poles in each iteration), and a real state-space representation is selected.</li>
+  <li><strong><code>ex1.m</code>:</strong> In this program, an artificial scalar function <i>f(s)</i> is constructed. <i>f(s)</i> is a row vector whose elements correspond to two predefined partial fractions. In addition, 18 complex starting poles are used, vecfitX is called three times iteratively (new poles are used as starting poles in each iteration), and a real state-space representation is selected.
+      
+  <p align="center">
+    <img src="images/myfigure_1_1.svg" alt="Diagrama del sistema" width="500" style="border: 1px solid #ccc; border-radius: 10px;" />
+  </p>
+  <p align="center"><em>Figure 1. Magnitude plot</em></p>
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="images/myfigure_1_1.svg" width="500"><br>
+      <em>Figura 1: Esquema A</em>
+    </td>
+    <td align="center">
+      <img src="images/myfigure_2_1.svg" width="500"><br>
+      <em>Figura 2: Esquema B</em>
+    </td>
+  </tr>
+</table>
+
+  </li>
     <li><strong><code>ex2.m</code>:</strong> In this example, the measured response of a transformer <i>f(s)</i> (scalar) is read from file <code>03pk10.txt</code>. In addition, 6 complex starting poles are used, vecfitX is called five times iteratively (new poles are used as starting poles in each iteration), a complex state-space representation is selected, and <i>f(s)</i> is weighted with the inverse of its magnitude.</li>
     <li><strong><code>ex3.m</code>:</strong> In this program, a calculated terminal admittance <i>6 X 6 X 300</i> matrix <i>Y(s)</i> of a power system is read from file <code>fdne.txt</code>. Only the first column of <i>Y(s)</i> is fitted, as follows: 50 complex starting poles are used, vecfitX is called five times iteratively (new poles are used as starting poles in each iteration), a complex state-space representation is selected, and <i>Y(s)</i> is weighted with the inverse of the square root of its magnitude.</li>
     <li><strong><code>ex4.m</code>:</strong> In this example, the same <i>6 X 6 X 300</i> matrix <i>Y(s)</i> is used. Now a complete complex state-space representation is calculated by fitting <i>Y(s)</i> column by column (each column has a different set of poles). In addition, 50 complex starting poles are used and improved on by fitting the element sum of the first column before fitting all columns, vecfitX is called 3 times iteratively (for each column),  and the columns of <i>Y(s)</i> are weighted with the inverse of the square root of its magnitudes.</li>
