@@ -188,12 +188,24 @@ def.sigmaplot = 0;                        % Exclude plot of sigma function
 def.savefig = 0;                          % Figures are not saved
 ```
 
+### Function call
+
+<p align="justify">
+    The following are some valid calls to the vecfitX function. The inputs and outputs are explained in detail below.
+</p>
+
+```matlab
+[SER,poles,rmserr,fit] = vectfitX(f,s,poles,weight,opt);
+[SER,poles,rmserr,fit] = vectfitX(f,s,poles,weight);
+[SER,poles,rmserr] = vectfitX(f,s,poles,weight);
+```
+
 ### Input and output data
 
 #### Description of the input data:
 
 <ul>
-    <li><strong><code>f(s)</code>:</strong> Matrix function (3D array) to be fitted with dimensions <i>Nr X Nc X Ns</i>.
+    <li><strong><code>f</code>:</strong> Matrix <i>f(s)</i> function (3D array) to be fitted with dimensions <i>Nr X Nc X Ns</i>.
         <ul>
             <li><i>Nr</i>: Number of rows in array.</li>
             <li><i>Nc</i>: Number of columns in array.</li>
@@ -245,7 +257,7 @@ def.savefig = 0;                          % Figures are not saved
 
 <p align="justify">
     A common practice is to iteratively apply the FRVF to improve the relocation of the calculated poles and achieve higher accuracy. This is achieved as follows:
-</ul>
+</p>
 
 ```matlab
 opt.skip_res = 1;          % Residue identification part is skipped.
@@ -262,9 +274,21 @@ end
 ```
 <p align="justify">
     It is important to note that residue identification is skipped until the last iteration. This is to reduce computation time. Keep in mind that residue identification should be performed with the last set of poles calculated. When residue identification is disabled, graph creation is also disabled. Even if it has been manually enabled, as in the previous example. This way, only the plots corresponding to the last iteration are displayed.
-</ul>
+</p>
 
 ### Test cases
+
+<p align="justify">
+    In order to demonstrate the use of the vecfitX function, test cases have been included in this repository. The examples and data have been taken and adapted from [4]. A brief description of these cases is shown below:
+</p>
+
+<ul>
+  <li><strong><code>ex1.m</code>:</strong> In this program, an artificial scalar function <i>f(s)</i> is constructed. <i>f(s)</i> is a row vector whose elements correspond to two predefined partial fractions. In addition, 18 complex starting poles are used, vecfitX is called three times iteratively (new poles are used as starting poles in each iteration), and a real state-space representation is selected.</li>
+    <li><strong><code>ex2.m</code>:</strong> In this example, the measured response of a transformer <i>f(s)</i> (scalar) is read from file <code>03pk10.txt</code>. In addition, 6 complex starting poles are used, vecfitX is called five times iteratively (new poles are used as starting poles in each iteration), a complex state-space representation is selected, and <i>f(s)</i> is weighted with the inverse of its magnitude.</li>
+    <li><strong><code>ex3.m</code>:</strong> In this program, a calculated terminal admittance <i>6 X 6 X 300</i> matrix <i>Y(s)</i> of a power system is read from file <code>fdne.txt</code>. Only the first column of <i>Y(s)</i> is fitted, as follows: 50 complex starting poles are used, vecfitX is called five times iteratively (new poles are used as starting poles in each iteration), a complex state-space representation is selected, and <i>Y(s)</i> is weighted with the inverse of the square root of its magnitude.</li>
+    <li><strong><code>ex4.m</code>:</strong> In this example, the same <i>6 X 6 X 300</i> matrix <i>Y(s)</i> is used. Now a complete complex state-space representation is calculated by fitting <i>Y(s)</i> column by column (each column has a different set of poles). In addition, 50 complex starting poles are used and improved on by fitting the element sum of the first column before fitting all columns, vecfitX is called 3 times iteratively (for each column),  and the columns of <i>Y(s)</i> are weighted with the inverse of the square root of its magnitudes.</li>
+    <li><strong><code>ex5.m</code>:</strong> Again the same <i>6 X 6 X 300</i> matrix <i>Y(s)</i> is used. Now a residue-pole representation is calculated by fitting <i>Y(s)</i> (all elements has a common set of poles). The fitting is performed similarly to the previous example. After obtaining the residue-pole representation, the <code>res2fit</code> function is used to obtain the fitted matrix in its original shape. </li>
+</ul>
 
 ## Contact info
 <p align="justify">
