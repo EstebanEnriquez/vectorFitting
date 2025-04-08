@@ -210,7 +210,7 @@ def.savefig = 0;                          % Figures are not saved
 ### Function call
 
 <p align="justify">
-    The following are some valid calls to the vecfitX function. The inputs and outputs are explained in detail below.
+    The following are some valid calls to the vecfitX function. The inputs and outputs are explained in detail below. It is important to note that vecfitX relies on several non-built-in functions. These functions, along with vecfitX, are included in the "source" folder. Please download the entire folder to ensure vecfitX functions properly. Test cases can be found in the "test_cases" folder. In some instances, external .txt files are required, and these are also included in the test cases folder.
 </p>
 
 ```matlab
