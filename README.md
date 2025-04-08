@@ -205,20 +205,65 @@ def.savefig = 0;                          % Figures are not saved
 #### Description of the input data:
 
 <ul>
-    <li><strong><code>f</code>:</strong> Matrix <i>f(s)</i> function (3D array) to be fitted with dimensions <i>Nr X Nc X Ns</i>.
+    <li><strong><code>f</code>:</strong> Matrix <i>f(s)</i> function (3D array as shown in fig. 1.1) to be fitted with dimensions <i>Nr X Nc X Ns</i>. It is important to note that the elements of a layer (2D array) are listed by column (column-by-column order). vecfitX uses this order by default throughout the FRVF routine, even if a row vector is processed. In figure 1.1, <i>f(s)</i> is a non-symmetric matrix and is not limited to a square shape. In case <i>f(s)</i> is a symmetric matrix, vecfitX uses the lower triangular portion by default (as shown in Figure 1.2) to make fitting more efficient.
+        <br><br>
+        <table align="center">
+          <tr>
+            <td align="center">
+             <img src="images/FIG8.svg" width="270"><br>
+             <em>Figure 1.1: f(s) representation as a 3D array (non-symmetric case).</em>
+            </td>
+            <td align="center">
+              <img src="images/FIG14.svg" width="265"><br>
+              <em>Figure 1.2: f(s) representation as a 3D array (symmetric case).</em>
+            </td>
+          </tr>
+        </table>
         <ul>
             <li><i>Nr</i>: Number of rows in array.</li>
             <li><i>Nc</i>: Number of columns in array.</li>
             <li><i>Ns</i>: Number of layers (frequency samples) in array.</li>
         </ul>
+        <br><br>
+    Although <i>f(s)</i> is a 3D array, a 2D matrix representation is required within the FRVF algorithm. Before executing the algorithm, at the start of the vecfitX function, the original 3D array is converted into a 2D matrix using a column-by-column order (as shown above). In this way, the rows of the new matrix correspond to the number of elements in a layer (in the original array), and the columns correspond to the frequency samples of each element (as shown in fig. 2.1). In the case of a symmetric array, the number of rows in the new matrix is ​​lower because only the lower triangular part is used (see fig. 2.2).
+        <br><br>
+        <table align="center">
+          <tr>
+            <td align="center">
+             <img src="images/FIG11.svg" width="360"><br>
+             <em>Figure 2.1: f(s) representation as a 2D array (non-symmetric case).</em>
+            </td>
+            <td align="center">
+              <img src="images/FIG9.svg" width="400"><br>
+              <em>Figure 2.2: f(s) representation as a 2D array (symmetric case).</em>
+            </td>
+          </tr>
+        </table>
     </li>
+    <br><br>
     <li><strong><code>s</code>:</strong> Vector of frequency samples [rad/sec] with dimensions <i>1 X Ns</i>.</li>
-    <li><strong><code>poles</code>:</strong> Vector of initial poles [rad/sec] with dimensions <i>1 X N</i>.  (Explain selection of inital poles)</li>
-    <li><strong><code>weight</code>:</strong> The elements in the system matrix are weighted using this array. It can be used for achieving higher accuracy at desired frequency samples. If no weighting is desired, use unitary weights, i.e. weight array of ones, with dimensions <i>1 X Ns</i>. Otherwise, 1D and 2D arrays are allowed. (Explain computation of weight and stackM.m function).</li>
+    <br><br>
+    <li><strong><code>poles</code>:</strong> Vector of initial poles [rad/sec] with dimensions <i>1 X N</i>.  The selection of the initial poles can be done in different ways. Some examples of how to do this are shown in the test cases. Further details are given in [4].</li>
+    <br><br>
+    <li><strong><code>weight</code>:</strong> The elements in the system matrix are weighted using this array. It can be used for achieving higher accuracy at desired frequency samples. If no weighting is desired, use unitary weights, i.e. weight array of ones, with dimensions <i>1 X Ns</i>. Otherwise, 1D and 2D arrays are allowed.</li>
+    <br><br>
+        <table align="center">
+          <tr>
+            <td align="center">
+             <img src="images/FIG13.svg" width="370"><br>
+             <em>Figure 3.1: Common weight array.</em>
+            </td>
+            <td align="center">
+              <img src="images/FIG15.svg" width="400"><br>
+              <em>Figure 3.2: Individual weight array.</em>
+            </td>
+          </tr>
+        </table>
         <ul>
-            <li><strong>1D array</strong>: Common weighting for all elements, weight array with dimensions <i>1 X Ns</i>.</li>
+            <li><strong>1D array</strong>: Common weighting for all elements, weight array with dimensions <i>1 X Ns</i>. As shown in fig. 3.1, a multiplication is performed element-by-element between the weight array and each row of the reshaped <i>f(s)</i>.</li>
             <li><strong>2D array</strong>: Individual weighting, weight array with dimensions <i>(Nr*Nc) X Ns</i>.</li>
         </ul>
+    <br><br>
     <li><strong><code>opt</code>:</strong> Configuration options.</li>
 </ul>
 
