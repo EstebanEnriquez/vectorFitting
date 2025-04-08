@@ -4,6 +4,19 @@
 This repo contains an updated and optimized version of the Fast-Relaxed Vector Fitting algorithm, originally developed by Bjørn Gustavsen. The present implementation maintains the conceptual fidelity of the original method, widely used in electrical engineering and dynamic systems analysis, but introduces some improvements in terms of computational efficiency, code structure, and compatibility with modern versions of MATLAB. The main objective of this version is to facilitate its use in current modeling and simulation projects by providing cleaner, more modular, and faster code. This version can be especially useful for researchers and practitioners who require a reliable, efficient and updated tool for analysis in the Laplace or frequency domain.
 </p>
 
+**Table of Contents**
+
+- [1. Vector Fitting Theory](#vector-fitting-theory)
+  - [1.1. Classical Vector Fitting](#classical-vector-fitting)
+  - [1.2. Improvement in pole relocation](#improvement-in-pole-relocation-relaxed-condition-of-scaling-function)
+  - [1.3. QR algorithm for efficient implementation](#qr-algorithm-for-efficient-implementation)
+- [2. A comprehesive vecfitX tutorial](#a-comprehesive-vecfitx-tutorial)
+  - [2.1. New features](#new-features)
+  - [2.2. Settings](#settings)
+  - [2.3. Function call](#function-call)
+  - [2.4. Input and output data](#input-and-output-data)
+    - [2.4.1. Description of the input data](#description-of-the-input-data)
+
 ## Vector Fitting Theory
 
 ### Classical Vector Fitting
