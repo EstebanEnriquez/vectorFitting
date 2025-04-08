@@ -1,5 +1,9 @@
 # The latest revised Fast-Relaxed Vector Fitting for MATLAB
 
+<p align="justify">
+This repo contains an updated and optimized version of the Fast-Relaxed Vector Fitting algorithm, originally developed by Bjørn Gustavsen. The present implementation maintains the conceptual fidelity of the original method, widely used in electrical engineering and dynamic systems analysis, but introduces some improvements in terms of computational efficiency, code structure, and compatibility with modern versions of MATLAB. The main objective of this version is to facilitate its use in current modeling and simulation projects by providing cleaner, more modular, and faster code. This version can be especially useful for researchers and practitioners who require a reliable, efficient and updated tool for analysis in the Laplace or frequency domain.
+</p>
+
 ## Vector Fitting Theory
 
 ### Classical Vector Fitting
@@ -95,17 +99,32 @@ As explained above, once the residues <i>ĉ</i><sub><i>n</i></sub> of <i>σ(s)</
 </p>
 
 <p align="justify">
-The modification of the VF with the two methods proposed in [2] and [3] have resulted in the third and last version of VF so far, better known as  <strong>Fast-Relaxed Vector Fitting (FRVF)</strong> [4].
+The modification of the VF with the two methods proposed in [2] and [3] have resulted in the third and last version of VF so far, better known as  <strong>Fast-Relaxed Vector Fitting (FRVF)</strong> [4]. This version is implemented in this repository under the name <strong><code>vectfitX</code></strong>.
 </p>
 
-## A comprehesive vecfitX.m tutorial
+## A comprehesive vecfitX tutorial
 
 ### New features
+
+<p align="justify">
+The vectfitX routine introduces several improvements over the original implementation (vecfit3), making it more versatile and efficient for practical applications. Key features include:
+</p>
+
+<ul>
+    <li><strong>3D Data array support:</strong> The function now accepts a 3D array as input for the matrix <i>f(s)</i>. Unlike the original implementation, which required manual reshaping of the data into a 2D array (with frequency samples along the rows and matrix elements stacked in a single column), vectfitX automatically handles the input organization. Any 3D shape is accepted (e.g., rectangular, square, row or column vectors). </li>
+    <li><strong>Efficient handling of symmetric matrices:</strong> Symmetric data matrices are processed by fitting only the lower triangular part, significantly reducing computational effort. This was not supported in the original version, where users had to apply symmetry considerations manually. </li>
+    <li><strong>Cleaner and more readable code structure:</strong> The source code has been refactored to improve clarity, maintainability, and modularity. </li>
+    <li><strong>Improved computational efficiency:</strong> Redundant operations have been removed, and key processes have been optimized through compact expressions and vectorization.</li>
+    <li><strong>Future-proof MATLAB compatibility:</strong> The code has been reviewed and updated to ensure compatibility with current and upcoming MATLAB releases. </li>
+    <li><strong>Direct output of pole-residue representation:</strong> Unlike the original version, vectfitX directly returns the pole-residue model, eliminating the need for additional functions to extract this representation. </li>
+    <li><strong>Enhanced configuration options:</strong> Users can now customize output behavior more extensively. For example, generated plots can be automatically saved in common formats such as PDF, PNG, or JPEG. </li>
+    <li><strong>Improved plot aesthetics:</strong> The appearance of plots has been refined for better readability and visual presentation. </li>
+</ul>
 
 ### Settings
 
 <p align="justify">
-Like the original function written by Bjørn Gustavsen, vecfitX.m can be configured according to the user's requirements. Below is a list of the available options for customizing the function. You can set all the parameters or just some of them. Numbers in parentheses indicate the possible values ​​that a parameter can take.
+Like the original function written by Bjørn Gustavsen, vecfitX can be configured according to the user's requirements. Below is a list of the available options for customizing the function. You can set all the parameters or just some of them. Numbers in parentheses indicate the possible values ​​that a parameter can take.
 </p>
 
 <ul>
