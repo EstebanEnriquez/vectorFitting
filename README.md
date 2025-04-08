@@ -261,7 +261,7 @@ def.savefig = 0;                          % Figures are not saved
         </table>
         <ul>
             <li><strong>1D array</strong>: Common weighting for all elements, weight array with dimensions <i>1 X Ns</i>. As shown in fig. 3.1, a multiplication is performed element-by-element between the weight array and each row of the reshaped <i>f(s)</i>.</li>
-            <li><strong>2D array</strong>: Individual weighting, weight array with dimensions <i>(Nr*Nc) X Ns</i>.</li>
+            <li><strong>2D array</strong>: Individual weighting, weight array with dimensions <i>(Nr*Nc) X Ns</i>. In this case, the weight array has the same dimension as the reshaped <i>f(s)</i>. Therefore, multiplication is done element by element between both arrays. If the original <i>f(s)</i> array is symmetric, the number of rows in weight array must have the same dimension as the matrix in fig 2.2. In both cases (symmetric and non-symmetric), before using any weighting strategy based on the elements of <i>f(s)</i>, it is necessary to use <code>stackM</code> to transform <i>f(s)</i> into a 2D matrix as already explained. Different weighting strategies are shown in test cases. Refer to [4] for more details.</li>
         </ul>
     <br><br>
     <li><strong><code>opt</code>:</strong> Configuration options.</li>
