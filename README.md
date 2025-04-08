@@ -16,6 +16,11 @@ This repo contains an updated and optimized version of the Fast-Relaxed Vector F
   - [2.3. Function call](#function-call)
   - [2.4. Input and output data](#input-and-output-data)
     - [2.4.1. Description of the input data](#description-of-the-input-data)
+    - [2.4.2. Description of the output data](#description-of-the-output-data)
+  - [2.5. Iterative implementation](#iterative-implementation)
+  - [2.6. Test cases](#test-cases)
+- [3. Contact info](#contact-info)
+- [4. References](#references)
 
 ## Vector Fitting Theory
 
