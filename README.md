@@ -396,6 +396,12 @@ def.savefig = 0;                          % Figures are not saved
     <li><strong><code>fit</code>:</strong> <i>(Nr*Nc) X Ns</i> array containing the rational approximation of <i>f(s)</i>. 0 is returned if <code>skip_res = 1</code>. If <i>f(s)</i> is a symmetric matrix, then fit has <i>(Nr*(Nr+1)/2)</i> rows and <i>Ns</i> columns. Note that <code>fit</code> has the same shape as the arrays in figures 2.1 and 2.2 (depending on the case). If you require a 3D representation of <code>fit</code>, just like the original <i>f(s)</i> function, use the <code>res2fit</code> function after calling vecfitX with the residue-pole representation, as shown below.</li>
 </ul>
 
+```matlab
+opt.repre = 2;
+[SER,poles] = vectfitX(fs,s,poles,weight,opt);
+pl = 1; % If pl = 1, res2fit creates plots of fitted function compared to the original f(s). Both magnitude and phase angle are shown.
+[fs_fit, rms] = res2fit(s, SER, fs, Nr, Nc, pl); % fs_fit is the fitted function with the same 3D representation as f(s).
+```
 
 ### Iterative implementation
 
