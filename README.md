@@ -385,11 +385,15 @@ def.savefig = 0;                          % Figures are not saved
         </ul>
     </li>
   <br><br>
-    <li><strong><code>SER.D</code>:</strong> <i>Nr X Nc</i> real constant term.</li>
-    <li><strong><code>SER.E</code>:</strong> <i>Nr X Nc</i> real proportional term.</li>
+    <li><strong><code>SER.D</code>:</strong> If the residue-pole model is selected, D is a real constant term of dimensions <i>Nr X Nc</i>. Otherwise, D is a column vector of dimensions <i>(Nr*Nc) X 1</i>. Note that in a symmetric matrix the dimension of D is smaller, since only the lower triangular part is fitted. </li>
+  <br><br>
+    <li><strong><code>SER.E</code>:</strong> If the residue-pole model is selected, E is a real proportional term of dimensions <i>Nr X Nc</i>. Otherwise, E is a column vector of dimensions <i>(Nr*Nc) X 1</i>. Note that in a symmetric matrix the dimension of E is smaller, since only the lower triangular part is fitted.</li>
+  <br><br>
     <li><strong><code>ord_zrs</code>:</strong> <i>1 X N</i> matrix containing the newly calculated poles.</li>
+  <br><br>
     <li><strong><code>rms</code>:</strong> root-mean-square error (scalar) of approximation for <i>f(s)</i>. 0 is returned if <code>skip_res = 1</code>.</li>
-    <li><strong><code>fit</code>:</strong> <i>(Nr*Nc) X Ns</i> array containing the rational approximation of <i>f(s)</i>. 0 is returned if <code>skip_res = 1</code>. If <i>f(s)</i> is a symmetric matrix, then fit has <i>(Nr*(Nr+1)/2)</i> rows and <i>Ns columns</i>.</li>
+  <br><br>
+    <li><strong><code>fit</code>:</strong> <i>(Nr*Nc) X Ns</i> array containing the rational approximation of <i>f(s)</i>. 0 is returned if <code>skip_res = 1</code>. If <i>f(s)</i> is a symmetric matrix, then fit has <i>(Nr*(Nr+1)/2)</i> rows and <i>Ns</i> columns. Note that <code>fit</code> has the same shape as the arrays in figures 2.1 and 2.2 (depending on the case). If you require a 3D representation of <code>fit</code>, just like the original <i>f(s)</i> function, use the <code>res2fit</code> function after calling vecfitX with the residue-pole representation, as shown below.</li>
 </ul>
 
 
