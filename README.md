@@ -310,23 +310,81 @@ def.savefig = 0;                          % Figures are not saved
     <li><strong><code>SER.A</code>:</strong> Array containing the poles of the fitted matrix function.
         <ul>
             <li> If <strong><code>opt.repre = 0</code>:</strong> A is sparse, square and real with <i>2 X 2</i> submatrices as diagonal elements, with dimensions <i>N X N</i>.</li>
+            <br><br>
+        <table align="center">
+          <tr>
+            <td align="center">
+             <img src="images/FIG17.svg" width="220"><br>
+             <em>Figure 4: Array A (<code>SER.A</code>) in the real state space model.</em>
+            </td>
+          </tr>
+        </table>
+    <br><br>
             <li> If <strong><code>opt.repre = 1</code>:</strong> A is sparse, diagonal and complex, with dimensions <i>N X N</i>.</li>
+          <br><br>
+        <table align="center">
+          <tr>
+            <td align="center">
+             <img src="images/FIG16.svg" width="220"><br>
+             <em>Figure 5: Array A (<code>SER.A</code>) in the complex state space model.</em>
+            </td>
+          </tr>
+        </table>
+    <br><br>
             <li> If <strong><code>opt.repre = 2</code>:</strong> A is a complex vector with dimensions <i>N X 1</i>.</li>
+          <br><br>
+        <table align="center">
+          <tr>
+            <td align="center">
+             <img src="images/FIG18.svg" width="110"><br>
+             <em>Figure 6: Array A (<code>SER.A</code>) in the residue-pole model.</em>
+            </td>
+          </tr>
+        </table>
+    <br><br>
         </ul>
     </li>
     <li><strong><code>SER.B</code>:</strong> Nx1 matrix only for real and complex state space representation.
         <ul>
-            <li> If <strong><code>opt.repre = 0</code>:</strong> B is a column vector of ones.</li>
-            <li> If <strong><code>opt.repre = 1</code>:</strong> B is a column vector of zeros, ones and twos.</li>
+          <br><br>
+        <table align="center">
+          <tr>
+            <td align="center">
+             <img src="images/FIG20.svg" width="80"><br>
+             <em>Figure 7.1: Array B (<code>SER.B</code>) in the real state space model.</em>
+            </td>
+            <td align="center">
+              <img src="images/FIG19.svg" width="75"><br>
+              <em>Figure 7.2: Array B (<code>SER.B</code>) in the complex state space model.</em>
+            </td>
+          </tr>
+        </table>
+            <li> If <strong><code>opt.repre = 0</code>:</strong> B is a column vector of zeros, ones and twos (see fig. 7.1).</li>
+            <li> If <strong><code>opt.repre = 1</code>:</strong> B is a column vector of ones (see fig. 7.2).</li>
         </ul>
     </li>
+  <br><br>
     <li><strong><code>SER.C</code>:</strong> Array containing the residues of the fitted matrix function.
         <ul>
-            <li> If <strong><code>opt.repre = 0</code>:</strong> C is real with dimensions <i>(Nr*Nc) X N</i>.</li>
-            <li> If <strong><code>opt.repre = 1</code>:</strong> C is complex with dimensions <i>(Nr*Nc) X N</i>.</li>
-            <li> If <strong><code>opt.repre = 2</code>:</strong> C is complex with dimensions <i>Nr X (N*Nc)</i>.</li>
+          <br><br>
+        <table align="center">
+          <tr>
+            <td align="center">
+             <img src="images/FIG21.svg" width="290"><br>
+             <em>Figure 8.1: Array C (<code>SER.C</code>) in the state space model (real or complex).</em>
+            </td>
+            <td align="center">
+              <img src="images/FIG22.svg" width="410"><br>
+              <em>Figure 8.2: Array C (<code>SER.C</code>) in the residue-pole model.</em>
+            </td>
+          </tr>
+        </table>
+            <li> If <strong><code>opt.repre = 0</code>:</strong> C is real with dimensions <i>(Nr*Nc) X N</i> (see fig. 8.1).</li>
+            <li> If <strong><code>opt.repre = 1</code>:</strong> C is complex with dimensions <i>(Nr*Nc) X N</i> (see fig. 8.1).</li>
+            <li> If <strong><code>opt.repre = 2</code>:</strong> C is complex with dimensions <i>Nr X (N*Nc)</i> (see fig. 8.2).</li>
         </ul>
     </li>
+  <br><br>
     <li><strong><code>SER.D</code>:</strong> <i>Nr X Nc</i> real constant term.</li>
     <li><strong><code>SER.E</code>:</strong> <i>Nr X Nc</i> real proportional term.</li>
     <li><strong><code>ord_zrs</code>:</strong> <i>1 X N</i> matrix containing the newly calculated poles.</li>
@@ -371,11 +429,11 @@ end
   <tr>
     <td align="center">
       <img src="images/myfigure_1_1.svg" width="500"><br>
-      <em>Figure 1.1: Magnitude plot.</em>
+      <em>Figure 9.1: Magnitude plot.</em>
     </td>
     <td align="center">
       <img src="images/myfigure_2_1.svg" width="500"><br>
-      <em>Figure 1.2: Phase angle plot.</em>
+      <em>Figure 9.2: Phase angle plot.</em>
     </td>
   </tr>
 </table>
@@ -387,11 +445,11 @@ end
   <tr>
     <td align="center">
       <img src="images/myfigure_1_2.svg" width="500"><br>
-      <em>Figure 2.1: Magnitude plot.</em>
+      <em>Figure 10.1: Magnitude plot.</em>
     </td>
     <td align="center">
       <img src="images/myfigure_2_2.svg" width="500"><br>
-      <em>Figure 2.2: Phase angle plot.</em>
+      <em>Figure 10.2: Phase angle plot.</em>
     </td>
   </tr>
 </table>
@@ -403,11 +461,11 @@ end
   <tr>
     <td align="center">
       <img src="images/myfigure_1_3.svg" width="500"><br>
-      <em>Figure 3.1: Magnitude plot.</em>
+      <em>Figure 11.1: Magnitude plot.</em>
     </td>
     <td align="center">
       <img src="images/myfigure_2_3.svg" width="500"><br>
-      <em>Figure 3.2: Phase angle plot.</em>
+      <em>Figure 11.2: Phase angle plot.</em>
     </td>
   </tr>
 </table>
@@ -419,11 +477,11 @@ end
   <tr>
     <td align="center">
       <img src="images/myfigure_1_4.svg" width="500"><br>
-      <em>Figure 4.1: Magnitude plot.</em>
+      <em>Figure 12.1: Magnitude plot.</em>
     </td>
     <td align="center">
       <img src="images/myfigure_2_4.svg" width="500"><br>
-      <em>Figure 4.2: Phase angle plot.</em>
+      <em>Figure 12.2: Phase angle plot.</em>
     </td>
   </tr>
 </table>
@@ -435,11 +493,11 @@ end
   <tr>
     <td align="center">
       <img src="images/myfigure_1_5.svg" width="500"><br>
-      <em>Figure 5.1: Magnitude plot.</em>
+      <em>Figure 13.1: Magnitude plot.</em>
     </td>
     <td align="center">
       <img src="images/myfigure_2_5.svg" width="500"><br>
-      <em>Figure 5.2: Phase angle plot.</em>
+      <em>Figure 13.2: Phase angle plot.</em>
     </td>
   </tr>
 </table>
