@@ -5,7 +5,11 @@ This repo contains an updated and optimized version of the Fast-Relaxed Vector F
 </p>
 
 <p align="justify">
-<strong><i>IMPORTANT NOTE: Download the VECFITX package (last release) and run the examples in the "example_cases" folder for testing. The vecfitX function is located in the "functions" folder, along with additional functions used internally by vecfitX.</i></strong>
+<strong><i>IMPORTANT NOTE 1: Download the VECFITX package (last release) and run the examples in the "example_cases" folder for testing. The vecfitX function is located in the "functions" folder, along with additional functions used internally by vecfitX.</i></strong>
+</p>
+
+<p align="justify">
+<strong><i>IMPORTANT NOTE 2: If the equations in this README are not displaying correctly, please use Google Chrome.</i></strong>
 </p>
 
 **Table of Contents**
