@@ -9,6 +9,8 @@
 
 clear; clc;
 
+addpath(fullfile(fileparts(mfilename('fullpath')), '..', 'functions'));
+
 %% Reading frequency response data from file
 fid1 = fopen('03PK10.txt','r');
 A1 = fscanf(fid1,'%f',1);

@@ -11,6 +11,8 @@
 
 clear,clc;
 
+addpath(fullfile(fileparts(mfilename('fullpath')), '..', 'functions'));
+
 %% Reading frequency response data from file
 fid1 = fopen('fdne.txt','r');
 Nr = fscanf(fid1,'%f',1); Nc = Nr;

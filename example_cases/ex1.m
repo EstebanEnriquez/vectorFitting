@@ -8,6 +8,8 @@
 
 clear; clc;
 
+addpath(fullfile(fileparts(mfilename('fullpath')), '..', 'functions'));
+
 %%  Constructing the artificial scalar function
 p = [-4500 -41000 (-100+1j*5e3) (-100-1j*5e3) (-120+1j*15e3) (-120-1j*15e3) (-3e3+1j*35e3) (-3e3-1j*35e3)];
 r = [-3000 -83000 (-5+1j*7e3) (-5-1j*7e3) (-20+1j*18e3) (-20-1j*18e3) (6e3+1j*45e3) (6e3-1j*45e3)];
