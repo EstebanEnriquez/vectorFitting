@@ -1,4 +1,4 @@
-function [SER, ord_zrs, rms, fit] = vectfitX(f, s, poles, weight, opt)
+function [SER, ord_zrs, rms, fit] = vectfitX(fm, s, poles, weight, opt)
 
 %         ==============================================================
 %         ||   Fast Relaxed Vector Fitting                            ||
@@ -15,9 +15,11 @@ function [SER, ord_zrs, rms, fit] = vectfitX(f, s, poles, weight, opt)
 
 
 %   =========================================================================
-%   ||  + PURPOSE : Approximate f(s) with a state-space model              ||
+%   ||  + PURPOSE : Approximate f(s) with a state-space or pole-residue    ||
+%   ||              model.                                                 ||
 %   ||                                                                     ||
-%   ||            f(s) = C*(s*I-A)^(-1)*B + D + s*E                        ||
+%   ||            f(s) = C*(s*I-A)^(-1)*B + D + s*E  (state space model)   ||
+%   ||            f(s) = C_n/(s-a_n) + D + s*E       (pole-residue model)  ||
 %   ||                                                                     ||
 %   ||            where f(s) is a single element or a vector of elements.  ||  
 %   ||            When f(s) is a vector, all elements become fitted with   ||
@@ -25,48 +27,53 @@ function [SER, ord_zrs, rms, fit] = vectfitX(f, s, poles, weight, opt)
 %   ||                                                                     ||
 %   ||  + INPUT :                                                          ||
 %   ||                                                                     ||
-%   ||  f(s) :    function (array) to be fitted; dimension Nr x Ns         ||
-%   ||            Nr : number of elements (rows) in vector                 ||
-%   ||            Ns : number of frequency (columns) samples               ||
+%   ||  f(s) :    Function (3D array) to be fitted; dimension Nr x Nc x Ns ||
+%   ||            Nr : number of rows in array                             ||
+%   ||            Nc : number of columns in array                          ||
+%   ||            Ns : number of layers (freq. samples) in array           ||
 %   ||                                                                     ||
 %   ||  s :       Vector of frequency points [rad/sec]; dimension 1xNs     || 
 %   ||                                                                     ||
 %   ||  poles :   Vector of initial poles [rad/sec]; dimension 1xN         ||
 %   ||                                                                     ||
-%   ||  weight :  The rows in the system matrix are weighted using this    ||
+%   ||  weight :  The elements in the system matrix are weighted using this||
 %   ||            array. Can be used for achieving higher accuracy at      ||
 %   ||            desired frequency samples. If no weighting is desired,   ||
 %   ||            use unitary weights: weight = ones(1,Ns).                ||
 %   ||                                                                     ||
 %   ||            1D and 2D arrays are allowed:                            ||
 %   ||            dimension: 1xNs -> Common weighting for all elements.    ||
-%   ||            dimension: NrxNs-> Individual weighting for elements.    ||
+%   ||            dimension: (NrxNc)xNs-> Individual weighting.            ||
 %   ||                                                                     ||
 %   || opt :      Configuration options                                    ||
 %   ||                                                                     ||
 %   || + OUTPUT :                                                          ||
 %   ||                                                                     ||
-%   || SER.A :    NxN sparse matrix A. If cmplx_ss == 1, A is diagonal     ||
-%   ||            and complex. Otherwise, it is square and real with 2x2   ||
-%   ||            submatrices as diagonal elements.                        ||
+%   || SER.A :    NxN sparse matrix A. If repre == 1, A is diagonal and    ||
+%   ||            complex. If repre == 0, it is square and real with 2x2   ||
+%   ||            submatrices as diagonal elements. If repre == 2, it is   ||
+%   ||            a Nx1 vector.                                            ||
 %   ||                                                                     ||
-%   || SER.B :    Nx1 matrix B. If cmplx_ss == 1: It is a column of 1's.   ||
-%   ||            If cmplx_ss == 0: It contains 0's, 1's and 2's.          ||
+%   || SER.B :    Nx1 matrix B. If repre == 1: It is a column of 1's.      ||
+%   ||            If repre == 0: It contains 0's, 1's and 2's.             ||
+%   ||            If repre == 2: It is omitted.                            ||
 %   ||                                                                     ||
-%   || SER.C :    NrxN matrix C. If cmplx_ss == 1: It is complex.          ||
-%   ||            If cmplx_ss == 0: Real-only.                             ||
+%   || SER.C :    NrxN matrix C. If repre == 1: It is complex.             ||
+%   ||            If repre == 0: Real-only.                                ||
+%   ||            If repre == 2: It is a Nrx(NxNc) array.                  ||
 %   ||                                                                     ||
-%   || SERD.D :   Nrx1 real constant term.                                 ||
+%   || SERD.D :   NrxNc real constant term.                                ||
 %   ||                                                                     ||
-%   || SERE.E :   Nrx1 real proportional term.                             ||
+%   || SERE.E :   NrxNc real proportional term.                            ||
 %   ||                                                                     ||
 %   || ord_zrs :  1xN matrix, it contains the new poles.                   || 
 %   ||                                                                     ||
 %   || rms :      root-mean-square error (scalar) of approx. for f(s).     ||
 %   ||            (0 is returned if skip_res == 1).                        ||
 %   ||                                                                     ||
-%   || fit :      NrxNs matrix. Rational approximation of f(s).            ||
-%   ||            (0 is returned if skip_res == 1).                        ||
+%   || fit :      (NrxNc)xNs matrix. Rational approximation of f(s).       ||
+%   ||            (0 is returned if skip_res == 1). If f(s) is a symmetric ||
+%   ||            matrix, then fit has (Nrx(Nr+1)/2) rows and Ns columns.  ||
 %   =========================================================================
 
 %   =========================================================================
@@ -91,10 +98,14 @@ function [SER, ord_zrs, rms, fit] = vectfitX(f, s, poles, weight, opt)
 %   || opt.skip_res == 1   -> The residue identification part is skipped.  ||
 %   ||                        Only the poles are identified.               ||
 %   ||                                                                     ||
-%   || opt.cmplx_ss == 1   -> The returned state-space model has real and  || 
+%   || opt.repre == 2      -> The returned model has a residue-pole        ||
+%   ||                        representation. Output variable A (poles)    ||
+%   ||                        is a Nx1 vector, variable C (residues) is a  ||
+%   ||                        Nrx(NxNc) array. D, E are of dim: NrxNc      ||
+%   || opt.repre == 1      -> The returned state-space model has real and  || 
 %   ||                        complex conjugate parameters. Output         ||
 %   ||                        variable A is diagonal and sparse.           ||
-%   || opt.cmplx_ss == 0   -> The returned state-space model has real      ||
+%   || opt.repre == 0      -> The returned state-space model has real      ||
 %   ||                        elements only. Output variable A is square   ||
 %   ||                        with 2x2 submatrices as diagonal elements.   ||
 %   ||                                                                     ||
@@ -148,11 +159,11 @@ def.stable = 1;                           % Enforce stable poles
 def.asymp = 3;                            % Include both D and E  
 def.skip_pole = 0;                        % Do not skip pole identification
 def.skip_res = 0;                         % Do not skip identification of residues (C,D,E) 
-def.cmplx_ss = 1;                         % Create complex state space model
+def.repre = 1;                            % Create complex state space representation
 def.errplot = 1;                          % Include deviation in magnitude and phase angle plot
 def.fitplot = 1;                          % Create plots of fitted and original functions
 def.sigmaplot = 0;                        % Exclude plot of sigma function
-def.savefig = 0;                          % No saving plots
+def.savefig = 0;                          % Figures are not saved
 
 
 if nargin < 5                             % Use default values as opts
@@ -168,76 +179,80 @@ end
 
 %--------------------------------------- Some sanity checks on data input --------------------------------%
 if opt.relax ~= 0 && opt.relax ~= 1
-    disp(['ERROR in vectfit.m: ==> Illegal value for opt.relax: ' num2str(opt.relax)]);
+    disp(['ERROR in vectfitX.m: ==> Illegal value for opt.relax: ' num2str(opt.relax)]);
     SER = []; ord_zrs = []; rms = []; fit = [];
     return
 end
 if opt.stable ~= 0 && opt.stable ~= 1
-    disp(['ERROR in vectfit.m: ==> Illegal value for opts.stable: ' num2str(opt.stable)]);
+    disp(['ERROR in vectfitX.m: ==> Illegal value for opts.stable: ' num2str(opt.stable)]);
     SER = []; ord_zrs = []; rms = []; fit = [];
     return
 end
 if opt.asymp ~= 1 && opt.asymp ~= 2 && opt.asymp ~= 3
-    disp(['ERROR in vectfit.m: ==> Illegal value for opts.asymp: ' num2str(opt.asymp)]);
+    disp(['ERROR in vectfitX.m: ==> Illegal value for opts.asymp: ' num2str(opt.asymp)]);
     SER = []; ord_zrs = []; rms = []; fit = [];
     return
 end
 if opt.skip_pole ~= 0 && opt.skip_pole ~= 1
-    disp(['ERROR in vectfit.m: ==> Illegal value for opt.skip_pole: ' num2str(opt.skip_pole)]);
+    disp(['ERROR in vectfitX.m: ==> Illegal value for opt.skip_pole: ' num2str(opt.skip_pole)]);
     SER = []; ord_zrs = []; rms = []; fit = [];
     return
 end
 if opt.skip_res ~= 0 && opt.skip_res ~= 1
-    disp(['ERROR in vectfit.m: ==> Illegal value for opt.skip_res: ' num2str(opt.skip_res)]);
+    disp(['ERROR in vectfitX.m: ==> Illegal value for opt.skip_res: ' num2str(opt.skip_res)]);
     SER = []; ord_zrs = []; rms = []; fit = [];
     return
 end
-if opt.cmplx_ss ~= 0 && opt.cmplx_ss ~= 1
-    disp(['ERROR in vectfit.m: ==> Illegal value for opt.cmplx_ss: ' num2str(opt.cmplx_ss)]);
+if opt.repre ~= 0 && opt.repre ~= 1 && opt.repre ~= 2
+    disp(['ERROR in vectfitX.m: ==> Illegal value for opt.repre: ' num2str(opt.repre)]);
     SER = []; ord_zrs = []; rms = []; fit = [];
     return
 end
 if opt.errplot ~= 0 && opt.errplot ~= 1
-    disp(['ERROR in vectfit.m: ==> Illegal value for opt.errplot: ' num2str(opt.errplot)]);
+    disp(['ERROR in vectfitX.m: ==> Illegal value for opt.errplot: ' num2str(opt.errplot)]);
     SER = []; ord_zrs = []; rms = []; fit = [];
     return
 end
 if opt.fitplot ~= 0 && opt.fitplot ~= 1
-    disp(['ERROR in vectfit.m: ==> Illegal value for opt.fitplot: ' num2str(opt.fitplot)]);
+    disp(['ERROR in vectfitX.m: ==> Illegal value for opt.fitplot: ' num2str(opt.fitplot)]);
     SER = []; ord_zrs = []; rms = []; fit = [];
     return
 end
 if opt.sigmaplot ~= 0 && opt.sigmaplot ~= 1
-    disp(['ERROR in vectfit.m: ==> Illegal value for opt.sigmaplot: ' num2str(opt.sigmaplot)]);
+    disp(['ERROR in vectfitX.m: ==> Illegal value for opt.sigmaplot: ' num2str(opt.sigmaplot)]);
     SER = []; ord_zrs = []; rms = []; fit = [];
     return
 end
 if opt.savefig < 0 || opt.savefig > 4
-    disp(['ERROR in vectfit.m: ==> Illegal value for opt.savefig: ' num2str(opt.savefig)]);
+    disp(['ERROR in vectfitX.m: ==> Illegal value for opt.savefig: ' num2str(opt.savefig)]);
     SER = []; ord_zrs = []; rms = []; fit = [];
     return
 end
-if size(s,2) ~= size(f,2)
-    disp('Error in vectfit3.m: ==> Second dimension of f does not match length of s.'); 
+if size(s,2) ~= size(fm,3)
+    disp('Error in vectfitX.m: ==> Third dimension of f does not match length of s.'); 
     SER = []; ord_zrs = []; rms = []; fit = [];
     return
 end  
 if size(s,2) ~= size(weight,2)
-    disp('Error in vectfit3.m: ==> Second dimension of weight does not match length of s.');
-    SER = []; ord_zrs = []; rms = []; fit = [];
-    return
-end
-if size(weight,1) ~= 1 && size(weight,1) ~= size(f,1)
-    disp('Error in vectfit3.m: ==> First dimension of weight is neither 1 nor matches first dimension of f.');  
+    disp('Error in vectfitX.m: ==> Second dimension of weight does not match length of s.');
     SER = []; ord_zrs = []; rms = []; fit = [];
     return
 end
 
 %---------------------------------------- Some variables definition --------------------------------------%
 
-Ns=length(s);
-N=length(poles);
-Nr=length(f(:,1));
+Ns = length(s);
+N = length(poles);
+Nr = size(fm,1);
+Nc = size(fm,2);
+f = stackM(fm, Nr, Nc, Ns);          % 2D function from 3D array 
+Nrr = size(f,1);
+
+if size(weight,1) ~= 1 && size(weight,1) ~= size(f,1)
+    disp('Error in vectfit3.m: ==> First dimension of weight is neither 1 nor matches the elements of f.');  
+    SER = []; ord_zrs = []; rms = []; fit = [];
+    return
+end
 
 if opt.asymp == 1
     offs = 0; 
@@ -278,16 +293,16 @@ if opt.skip_pole ~= 1 % Pole identification is not skipped
         W = sqrt(W) / Ns;
 
         % Definition of some arrays
-        A_red=zeros(Nr*(N+1),N+1);
-        b_red=zeros(Nr*(N+1),1);
+        A_red=zeros(Nrr*(N+1),N+1);
+        b_red=zeros(Nrr*(N+1),1);
         Dk = [Dk, ones(Ns,1)];
 
         % Main loop of the pole identification stage
-        for n = 1:Nr
+        for n = 1:Nrr
             % Weighting method
             if size(weight,1) == 1
                 w = weight.';
-            elseif size(weight,1) == Nr
+            elseif size(weight,1) == Nrr
                 w = weight(n,:).';
             end
             Aw = w.*A(:,1:N+offs);
@@ -299,7 +314,7 @@ if opt.skip_pole ~= 1 % Pole identification is not skipped
             Ar = [real(Aw); imag(Aw)];
             
             % Integral criterion for sigma
-            if n == Nr
+            if n == Nrr
                 Ar(2*Ns+1,N+offs+1:2*N+offs+1)=real(W*sum(Dk(:,1:N+1)));
             end
             
@@ -309,7 +324,7 @@ if opt.skip_pole ~= 1 % Pole identification is not skipped
             A_red((n-1)*(N+1)+1:n*(N+1),:) = R22;
 
             % Array b
-            if n == Nr
+            if n == Nrr
                 b_red((n-1)*(N+1)+1:n*(N+1),1) = transpose(Q(end,N+offs+1:end))*Ns*W;
             end
         end
@@ -341,15 +356,15 @@ if opt.skip_pole ~= 1 % Pole identification is not skipped
                 dn = sign(x(end))*tmax;
             end
         end
-        A_red = zeros(Nr*N,N);
-        b_red = zeros(Nr*N,1);
+        A_red = zeros(Nrr*N,N);
+        b_red = zeros(Nrr*N,1);
 
         % Main loop of the pole identification stage
-        for n = 1:Nr
+        for n = 1:Nrr
             % Weighting method
             if size(weight,1) == 1
                 w = weight.';
-            elseif size(weight,1) == Nr
+            elseif size(weight,1) == Nrr
                 w = weight(n,:).';
             end
             Aw = w.*A;
@@ -477,12 +492,12 @@ if opt.skip_res ~= 1 % Residue identification is not skipped
         C = X(1:N,:);
     
     % Individual weighting
-    elseif size(weight,1) == Nr
-        D = zeros(Nr,1);
-        E = zeros(Nr,1);
-        C = zeros(N,Nr);
+    elseif size(weight,1) == Nrr
+        D = zeros(Nrr,1);
+        E = zeros(Nrr,1);
+        C = zeros(N,Nrr);
         % Main loop of the residue identification stage
-        for i = 1:Nr
+        for i = 1:Nrr
             % Array A
             Aw = weight(i,:).'.*A;
             Ar = [real(Aw); imag(Aw)];
@@ -514,11 +529,11 @@ if opt.skip_res ~= 1 % Residue identification is not skipped
     
     % Function fitted from the obtained state space
     Dk = zeros(Ns,N);
-    fit = zeros(Nr,Ns);
+    fit = zeros(Nrr,Ns);
     for i = 1:N
         Dk(:,i) = 1./(s-ord_zrs(i));
     end
-    for i = 1:Nr
+    for i = 1:Nrr
         fit(i,:) = Dk*C(:,i);
         if opt.asymp == 2
             fit(i,:) = fit(i,:) + D(i);
@@ -529,17 +544,23 @@ if opt.skip_res ~= 1 % Residue identification is not skipped
     
     % RMS error
     dif = fit - f;
-    rms = sqrt(sum(sum(abs(dif.^2))))/sqrt(Nr*Ns);
+    rms = sqrt(sum(sum(abs(dif.^2))))/sqrt(Nrr*Ns);
     
     % Output as state space representation
     B = ones(N,1);
-    if opt.cmplx_ss == 1   % Complex state space
+    if opt.repre == 1   % Complex state space
         A = diag(ord_zrs);
-    else                   % Real state space
+        C = C.';
+    elseif opt.repre == 0  % Real state space
         A = diag(ord_zrs);
         [A, B, C] = real2complexSS(A, B, ord_zrs, N, C);
+    elseif opt.repre == 2  % Residue-pole representation
+        A = ord_zrs;
+        D = vec2Mat(D, fm, Nr, Nc);
+        E = vec2Mat(E, fm, Nr, Nc);
+        C = vec2ResMat(C, fm, Nr, Nc, N);
     end
-    SER.A = sparse(A); SER.B = B; SER.C = C.'; SER.D = D; SER.E = E;
+    SER.A = sparse(A); SER.B = B; SER.C = C; SER.D = D; SER.E = E;
     
 %---------------------------------------------------- Plots --------------------------------------------------%
     if opt.fitplot == 1 || (opt.sigmaplot == 1 && opt.skip_pole ~= 1)
@@ -570,20 +591,20 @@ if opt.skip_res ~= 1 % Residue identification is not skipped
         hfig2 = figure (2);
         if opt.errplot == 1
             subplot(2,1,1)
-            ph1 = 180*unwrap(angle(f))/pi;
-            ph2 = 180*unwrap(angle(fit))/pi;
-            h4 = semilogx(freq,ph1,'b'); hold on
-            h5 = semilogx(freq,ph2,'r-.'); hold off; grid on;
+            ph1 = 180*unwrap(angle(f), [], 2)/pi;
+            ph2 = 180*unwrap(angle(fit),[], 2)/pi;
+            h4 = plot(freq,ph1,'b'); hold on
+            h5 = plot(freq,ph2,'r-.'); hold off; grid on;
             legend([h4(1) h5(1)], "Data", "VF"); xlim([freq(1) freq(end)])
             xlabel("Frequency [Hz]"); ylabel("Phase angle [deg]")
             subplot(2,1,2)
-            loglog(freq, abs(ph1-ph2), 'm'); grid on;
+            semilogy(freq, abs(ph1-ph2), 'm'); grid on;
             xlabel("Frequency [Hz]"); ylabel("Deviation"); xlim([freq(1) freq(end)])
         else
-            ph1 = 180*unwrap(angle(f))/pi;
-            ph2 = 180*unwrap(angle(fit))/pi;
-            h4 = semilogx(freq,ph1,'b'); hold on
-            h5 = semilogx(freq,ph2,'r-.'); hold off; grid on;
+            ph1 = 180*unwrap(angle(f), [], 2)/pi;
+            ph2 = 180*unwrap(angle(fit),[], 2)/pi;
+            h4 = plot(freq,ph1,'b'); hold on
+            h5 = plot(freq,ph2,'r-.'); hold off; grid on;
             legend([h4(1) h5(1)], "Data", "VF")
             xlabel("Frequency [Hz]"); ylabel("Phase angle [deg]"); xlim([freq(1) freq(end)])
         end
@@ -636,13 +657,13 @@ else % Residue identification is skipped
 
     % Output as state space representation
     B = ones(N,1);
-    if opt.cmplx_ss == 1   % Complex state space
+    if opt.repre == 1 || opt.repre == 2      % Complex state space
         A = diag(ord_zrs);
         C = 0;
-    else                   % Real state space
+    elseif opt.repre == 0  % Real state space
         A = diag(ord_zrs);
         [A, B, C] = real2complexSS(A, B, ord_zrs, N);
     end
     SER.A = sparse(A); SER.B = B; SER.C = C; SER.D = 0; SER.E = 0;
-    rms = 0; fit = zeros(Nr, Ns);
+    rms = 0; fit = zeros(Nrr, Ns);
 end
